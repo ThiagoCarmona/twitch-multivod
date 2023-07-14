@@ -26,6 +26,13 @@ function App() {
     }
   }, [])
 
+  const handleMultiVodUrlClick = () => {
+    //open url in new tab
+    console.log(multiVodUrl)
+    if(multiVodUrl === '') return
+    window.open(multiVodUrl, '_blank')
+  }
+
   const handleTimeChange = (time: any) => {
     setTime(time)
   }
@@ -123,6 +130,8 @@ function App() {
         <TextInput
         placeholder="MultiVod URL"
         value={multiVodUrl}
+        id="multi-vod-url"
+        onClick={handleMultiVodUrlClick}
         />
       </Pane>
     </div>

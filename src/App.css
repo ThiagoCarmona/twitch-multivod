@@ -18,3 +18,7 @@
 #output-area {
   margin-top: 50px;
 }
+
+#multi-vod-url {
+  cursor: pointer;
+}
