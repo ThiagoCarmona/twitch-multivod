@@ -9,6 +9,7 @@ import { getSyncVods } from './api/api';
 
 function App() {
 
+
   const [channelList, setChannelList] = React.useState<string[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
   const [vodUrl, setVodUrl] = React.useState<string>('')
@@ -29,6 +30,7 @@ function App() {
       title: 'Vod URL',
       description: 'Enter the Vod URL or ID',
       target: () => VodUrlRef.current,
+      
     },
     {
       title: 'Time',
@@ -76,6 +78,7 @@ function App() {
     const vodUrl = ev.target.value
     const vodUrlRegex = /https:\/\/www\.twitch\.tv\/videos\/(\d{10})/
     setVodUrl(vodUrl)
+    
     if (vodUrlRegex.test(vodUrl)) {
       //get vod id group from regex
       var vodId = vodUrl.match(vodUrlRegex)![1]
@@ -118,6 +121,7 @@ function App() {
     <div className="App">
       <Tour
       steps={steps}
+      
       />
       <Pane>
         <h2>Vod</h2>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://18.119.120.73"
+  baseURL: "https://ec2-18-119-120-73.us-east-2.compute.amazonaws.com/"
 });
 
 export const getSyncVods = async (vodId: string, channels: string[], minutes?: number) => {
