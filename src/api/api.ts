@@ -1,7 +1,13 @@
 import axios from 'axios';
+import https from 'https';
+
+const agent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 const api = axios.create({
-  baseURL: "https://ec2-18-119-120-73.us-east-2.compute.amazonaws.com/"
+  baseURL: "https://thiagocarmona.xyz",
+  httpsAgent: agent
 });
 
 export const getSyncVods = async (vodId: string, channels: string[], minutes?: number) => {
