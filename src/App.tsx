@@ -2,8 +2,8 @@ import './App.css'
 import { Pane, Textarea, Button, TextInput } from 'evergreen-ui'
 import UseAnimations from "react-useanimations";
 import loadingIcon from 'react-useanimations/lib/loading'
-import React, {useEffect} from 'react'
-import { TimePicker } from 'antd';
+import React, {useEffect, useRef} from 'react'
+import { TimePicker, Tour, TourProps } from 'antd';
 import dayjs from 'dayjs';
 import { getSyncVods } from './api/api';
 
@@ -18,6 +18,34 @@ function App() {
 
   const timeFormat = 'HH:mm'
   const [time, setTime] = React.useState<any>(dayjs('00:00', timeFormat))
+
+  const VodUrlRef = useRef(null)
+  const timerRef = useRef(null)
+  const channelListRef = useRef(null)
+  const multiVodUrlRef = useRef(null)
+
+  const steps: TourProps['steps'] = [
+    {
+      title: 'Vod URL',
+      description: 'Enter the Vod URL or ID',
+      target: () => VodUrlRef.current,
+    },
+    {
+      title: 'Time',
+      description: 'Enter the time to start the Vod',
+      target: () => timerRef.current,
+    },
+    {
+      title: 'Channel List',
+      description: 'Enter the channels to sync',
+      target: () => channelListRef.current,
+    },
+    {
+      title: 'MultiVod URL',
+      description: 'The MultiVod URL will appear here',
+      target: () => multiVodUrlRef.current,
+    },
+  ]
 
   useEffect(() => {
     const channelList = window.localStorage.getItem('channelList')
@@ -88,9 +116,13 @@ function App() {
 
   return (
     <div className="App">
+      <Tour
+      steps={steps}
+      />
       <Pane>
         <h2>Vod</h2>
         <TextInput
+        ref={VodUrlRef}
         id="vod-url"
         placeholder="Enter Vod URL or ID"
         onChange={handleVodUrl}
@@ -99,9 +131,13 @@ function App() {
           vodOk ? {} : {backgroundColor: "#e27676"}
         }
         />
+        <div ref={timerRef} style={{display: 'inline-block', margin: '0 10px'
+        }}>
         <TimePicker defaultValue={dayjs('00:00', timeFormat)} format={timeFormat} showNow={false} value={time} onChange={handleTimeChange}/>
+        </div>
         <h2>Channel List</h2>
         <Textarea
+        ref={channelListRef}
         id="channel-area"
         placeholder="Enter each channel on one line"
         onChange={handleChannelList}
@@ -132,6 +168,7 @@ function App() {
         value={multiVodUrl}
         id="multi-vod-url"
         onClick={handleMultiVodUrlClick}
+        ref={multiVodUrlRef}
         />
       </Pane>
     </div>
