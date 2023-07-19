@@ -3,12 +3,12 @@ import { Pane, Textarea, Button, TextInput } from 'evergreen-ui'
 import UseAnimations from "react-useanimations";
 import loadingIcon from 'react-useanimations/lib/loading'
 import React, {useEffect, useRef} from 'react'
-import { TimePicker, Tour, TourProps } from 'antd';
+import { TimePicker, Tour, TourProps, message } from 'antd';
 import dayjs from 'dayjs';
 import { getSyncVods } from './api/api';
 
 function App() {
-
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [channelList, setChannelList] = React.useState<string[]>([])
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -97,6 +97,12 @@ function App() {
 
   const handleButtonClick = () => {
     if(loading) return
+    messageApi.open({
+      content: 'Fetching Vods...',
+      key: 'loading',
+      type: 'loading',
+      duration: 0,
+    });
     setLoading(true)
     if(!vodId) {
       setLoading(false)
@@ -114,11 +120,13 @@ function App() {
       console.log(err)
     }).finally(() => {
       setLoading(false)
+      messageApi.destroy('loading')
     })
   }
 
   return (
     <div className="App">
+      {contextHolder}
       <Tour
       steps={steps}
       
