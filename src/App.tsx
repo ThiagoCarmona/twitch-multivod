@@ -17,6 +17,7 @@ function App() {
   const [vodOk, setVodOk] = React.useState<boolean>(true)
   const [multiVodUrl, setMultiVodUrl] = React.useState<string>('')
   const [twitchVodSyncUrl, setTwitchVodSyncUrl] = React.useState<string>('')
+  const [tourOpen, setTourOpen] = React.useState<boolean>(false)
 
   const timeFormat = 'HH:mm'
   const [time, setTime] = React.useState<any>(dayjs('00:00', timeFormat))
@@ -26,6 +27,13 @@ function App() {
   const channelListRef = useRef(null)
   const multiVodUrlRef = useRef(null)
   const twitchVodSyncUrlRef = useRef(null)
+
+  useEffect(() => {
+    const tour = window.localStorage.getItem('tour')
+    if (!tour) {
+      setTourOpen(true)
+    }
+  }, [])
 
   const steps: TourProps['steps'] = [
     {
@@ -75,6 +83,11 @@ function App() {
 
   const handleTimeChange = (time: any) => {
     setTime(time)
+  }
+
+  const setTour = () => {
+    window.localStorage.setItem('tour', 'true')
+    setTourOpen(false)
   }
 
   const handleChannelList = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -140,7 +153,8 @@ function App() {
       {contextHolder}
       <Tour
       steps={steps}
-      
+      onFinish={setTour}
+      open={tourOpen}
       />
       <Pane>
         <h2>Vod</h2>
@@ -189,7 +203,7 @@ function App() {
         <TextInput
         placeholder="TwitchVodSync URL"
         value={twitchVodSyncUrl}
-        id="twitch-vod-sync-url"
+        id="multi-vod-url"
         onClick={handleTwitchVodSyncUrlClick}
         ref={twitchVodSyncUrlRef}
         />
