@@ -16,6 +16,7 @@ function App() {
   const [vodId, setVodId] = React.useState<string>('')
   const [vodOk, setVodOk] = React.useState<boolean>(true)
   const [multiVodUrl, setMultiVodUrl] = React.useState<string>('')
+  const [twitchVodSyncUrl, setTwitchVodSyncUrl] = React.useState<string>('')
 
   const timeFormat = 'HH:mm'
   const [time, setTime] = React.useState<any>(dayjs('00:00', timeFormat))
@@ -24,6 +25,7 @@ function App() {
   const timerRef = useRef(null)
   const channelListRef = useRef(null)
   const multiVodUrlRef = useRef(null)
+  const twitchVodSyncUrlRef = useRef(null)
 
   const steps: TourProps['steps'] = [
     {
@@ -47,6 +49,11 @@ function App() {
       description: 'The MultiVod URL will appear here',
       target: () => multiVodUrlRef.current,
     },
+    {
+      title: 'TwitchVodSync URL',
+      description: 'The TwitchVodSync URL will appear here',
+      target: () => twitchVodSyncUrlRef.current,
+    },
   ]
 
   useEffect(() => {
@@ -57,10 +64,13 @@ function App() {
   }, [])
 
   const handleMultiVodUrlClick = () => {
-    //open url in new tab
-    console.log(multiVodUrl)
     if(multiVodUrl === '') return
     window.open(multiVodUrl, '_blank')
+  }
+
+  const handleTwitchVodSyncUrlClick = () => {
+    if(twitchVodSyncUrl === '') return
+    window.open(twitchVodSyncUrl, '_blank')
   }
 
   const handleTimeChange = (time: any) => {
@@ -115,6 +125,7 @@ function App() {
     console.log(minutes)
     getSyncVods(vodId, channelList, minutes).then((res) => {
       setMultiVodUrl(res.multiVodUrl || '')
+      setTwitchVodSyncUrl(res.twitchVodSyncUrl || '')
       
     }).catch((err) => {
       console.log(err)
@@ -173,7 +184,16 @@ function App() {
       </Button>
       <Pane
       id='output-area'
-      >
+      > 
+        <h2>TwitchVodSync URL</h2>
+        <TextInput
+        placeholder="TwitchVodSync URL"
+        value={twitchVodSyncUrl}
+        id="twitch-vod-sync-url"
+        onClick={handleTwitchVodSyncUrlClick}
+        ref={twitchVodSyncUrlRef}
+        />
+
         <h2>MultiVod URL</h2>
         <TextInput
         placeholder="MultiVod URL"
