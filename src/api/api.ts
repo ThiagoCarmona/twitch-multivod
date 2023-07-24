@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://thiagocarmona.xyz",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 export const getSyncVods = async (vodId: string, channels: string[], minutes?: number) => {
