@@ -92,6 +92,7 @@ function App() {
 
   const handleChannelList = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
     const channelList = ev.target.value.split('\n')
+    .filter((channel) => channel.length >= 3)
     .map((channel) => channel.trim())
     setChannelList(channelList)
     window.localStorage.setItem('channelList', JSON.stringify(channelList))
