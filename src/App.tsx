@@ -92,7 +92,6 @@ function App() {
 
   const handleChannelList = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
     const channelList = ev.target.value.split('\n')
-    .filter((channel) => channel.length >= 3)
     .map((channel) => channel.trim())
     setChannelList(channelList)
     window.localStorage.setItem('channelList', JSON.stringify(channelList))
@@ -136,8 +135,11 @@ function App() {
     setVodOk(true)
     //get minutes sum
     const minutes = time.hour() * 60 + time.minute()
-    console.log(minutes)
-    getSyncVods(vodId, channelList, minutes).then((res) => {
+    const filteredChannelList = channelList
+    .filter((channel) => channel !== '')
+    .filter((channel, index, self) => self.indexOf(channel) === index)
+    .filter((channel) => !channel.includes(' '))
+    getSyncVods(vodId, filteredChannelList, minutes).then((res) => {
       setMultiVodUrl(res.multiVodUrl || '')
       setTwitchVodSyncUrl(res.twitchVodSyncUrl || '')
       
