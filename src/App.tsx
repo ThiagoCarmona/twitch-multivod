@@ -4,8 +4,11 @@ import UseAnimations from "react-useanimations";
 import loadingIcon from 'react-useanimations/lib/loading'
 import React, {useEffect, useRef} from 'react'
 import { TimePicker, Tour, TourProps, message } from 'antd';
+import {SaveOutlined, FolderOpenOutlined} from '@ant-design/icons'
 import dayjs from 'dayjs';
 import { getSyncVods } from './api/api';
+import { SaveListModal } from './components/saveListModal';
+import { ManageListsModal } from './components/manageListsModal';
 
 function App() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -18,6 +21,9 @@ function App() {
   const [multiVodUrl, setMultiVodUrl] = React.useState<string>('')
   const [twitchVodSyncUrl, setTwitchVodSyncUrl] = React.useState<string>('')
   const [tourOpen, setTourOpen] = React.useState<boolean>(false)
+
+  const [saveListModalOpen, setSaveListModalOpen] = React.useState<boolean>(false)
+  const [manegeListsModalOpen, setManageListsModalOpen] = React.useState<boolean>(false)
 
   const timeFormat = 'HH:mm'
   const [time, setTime] = React.useState<any>(dayjs('00:00', timeFormat))
@@ -154,6 +160,19 @@ function App() {
   return (
     <div className="App">
       {contextHolder}
+      <SaveListModal
+      open={saveListModalOpen}
+      channelList={channelList}
+      handleClose={() => setSaveListModalOpen(false)}
+      />
+      <ManageListsModal
+      open={manegeListsModalOpen}
+      onListSelect={(channels) => {
+        setChannelList(channels)
+        window.localStorage.setItem('channelList', JSON.stringify(channels))
+      }}
+      handleClose={() => setManageListsModalOpen(false)}
+      />
       <Tour
       steps={steps}
       onFinish={setTour}
@@ -176,13 +195,23 @@ function App() {
         <TimePicker defaultValue={dayjs('00:00', timeFormat)} format={timeFormat} showNow={false} value={time} onChange={handleTimeChange}/>
         </div>
         <h2>Channel List</h2>
-        <Textarea
-        ref={channelListRef}
-        id="channel-area"
-        placeholder="Enter each channel on one line"
-        onChange={handleChannelList}
-        value={channelList.join('\n')}
-        />
+        <div className='channel-list-info'>
+          <Textarea
+          ref={channelListRef}
+          id="channel-area"
+          placeholder="Enter each channel on one line"
+          onChange={handleChannelList}
+          value={channelList.join('\n')}
+          />
+          <div className='channel-controls'>
+          <SaveOutlined className='save-icon' onClick={()=>{
+            setSaveListModalOpen(true)
+          }}/>
+          <FolderOpenOutlined className='open-icon' onClick={()=>{
+            setManageListsModalOpen(true)
+          }}/>
+          </div>
+        </div>
       </Pane>
       <Button
       id="submit-button"

@@ -5,6 +5,35 @@
   text-align: center;
 }
 
+.App {
+  text-align: center;
+}
+
+.channel-list-info {
+  width: 300px;
+  height: 300px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.channel-controls {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.save-icon {
+  font-size: 25px;
+  color: rgba(0, 0, 0, 0.473);
+  cursor: pointer;
+}
+
+.open-icon {
+  font-size: 25px;
+  color: rgba(0, 0, 0, 0.473);
+  cursor: pointer;
+}
+
 
 #channel-area {
   height: 300px;
