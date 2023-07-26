@@ -6,9 +6,11 @@ import React, {useEffect, useRef} from 'react'
 import { TimePicker, Tour, TourProps, message } from 'antd';
 import {SaveOutlined, FolderOpenOutlined} from '@ant-design/icons'
 import dayjs from 'dayjs';
-import { getSyncVods } from './api/api';
+import { getSyncVods, getVodInfo } from './api/api';
 import { SaveListModal } from './components/saveListModal';
 import { ManageListsModal } from './components/manageListsModal';
+import { LiveInfo } from './components/liveInfo';
+import { PreviewInfo } from './types';
 
 function App() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -21,6 +23,8 @@ function App() {
   const [multiVodUrl, setMultiVodUrl] = React.useState<string>('')
   const [twitchVodSyncUrl, setTwitchVodSyncUrl] = React.useState<string>('')
   const [tourOpen, setTourOpen] = React.useState<boolean>(false)
+  const [previewVod, setPreviewVod] = React.useState<PreviewInfo | null>(null)
+
 
   const [saveListModalOpen, setSaveListModalOpen] = React.useState<boolean>(false)
   const [manegeListsModalOpen, setManageListsModalOpen] = React.useState<boolean>(false)
@@ -103,6 +107,23 @@ function App() {
     window.localStorage.setItem('channelList', JSON.stringify(channelList))
   }
 
+  const vodInfoSearch = async (vodUrl: string) => {
+    try {
+      const vod = await getVodInfo(vodUrl)
+      if(!vod) return
+      const vodInfo = vod.vodInfo
+      setPreviewVod({
+        channel: vodInfo.channel,
+        date: vodInfo.date,
+        picture: vodInfo.image.replace('%{width}', '160').replace('%{height}', '90'),
+        title: vodInfo.title,
+        show: true
+      })
+    }catch{
+      setPreviewVod(null)
+    }
+  }
+
   const handleVodUrl = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const vodUrl = ev.target.value
     const vodUrlRegex = /https:\/\/www\.twitch\.tv\/videos\/(\d{10})/
@@ -114,12 +135,13 @@ function App() {
     } else if (vodUrl.length === 10) {
       var vodId = vodUrl
     } else {
+      setPreviewVod(null)
       return
     }
 
     if (vodId) {
       setVodId(vodId)
-      console.log(vodId)
+      vodInfoSearch(vodId)
     }
 
   }
@@ -150,7 +172,6 @@ function App() {
       setTwitchVodSyncUrl(res.twitchVodSyncUrl || '')
       
     }).catch((err) => {
-      console.log(err)
     }).finally(() => {
       setLoading(false)
       messageApi.destroy('loading')
@@ -159,6 +180,13 @@ function App() {
 
   return (
     <div className="App">
+      <LiveInfo
+      title={previewVod?.title || ''}
+      channelName={previewVod?.channel|| ''}
+      date={previewVod?.date || ''}
+      profilePic={previewVod?.picture|| ''}
+      show={previewVod?.show || false}
+      />
       {contextHolder}
       <SaveListModal
       open={saveListModalOpen}

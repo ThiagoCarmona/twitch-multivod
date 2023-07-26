@@ -16,3 +16,13 @@ export const getSyncVods = async (vodId: string, channels: string[], minutes?: n
     return null;
   }
 };
+
+export const getVodInfo = async (vodId: string) => {
+  try{
+    const response = await api.get(`/vod/${vodId}`);
+    return response.data;
+  } catch(err) {
+    console.log(err);
+    return null;
+  }
+};
