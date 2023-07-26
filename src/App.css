@@ -52,3 +52,14 @@
 #multi-vod-url {
   cursor: pointer;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey; 
+  border-radius: 10px;
+}
