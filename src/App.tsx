@@ -202,6 +202,7 @@ function App() {
           placeholder="Enter each channel on one line"
           onChange={handleChannelList}
           value={channelList.join('\n')}
+          resize={"none"}
           />
           <div className='channel-controls'>
           <SaveOutlined className='save-icon' onClick={()=>{
