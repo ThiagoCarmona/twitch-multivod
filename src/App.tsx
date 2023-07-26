@@ -172,6 +172,7 @@ function App() {
       setTwitchVodSyncUrl(res.twitchVodSyncUrl || '')
       
     }).catch((err) => {
+      console.log(err)
     }).finally(() => {
       setLoading(false)
       messageApi.destroy('loading')
