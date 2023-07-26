@@ -177,6 +177,7 @@ function App() {
       steps={steps}
       onFinish={setTour}
       open={tourOpen}
+      onClose={setTour}
       />
       <Pane>
         <h2>Vod</h2>
