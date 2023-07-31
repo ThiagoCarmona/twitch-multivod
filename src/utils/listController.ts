@@ -16,6 +16,17 @@ export function saveList(listName: string, channels: string[]): void {
   const lists = window.localStorage.getItem('lists');
   if (lists) {
     const parsedLists: SavedList[] = JSON.parse(lists)
+    //check if list already exists
+    const foundList = parsedLists.find((list) => list.listName === listName);
+    if (foundList) {
+      const newList = parsedLists.map((list) => {
+        if (list.listName === listName) {
+          return { listName, channels };
+        }
+        else return list;
+      });
+      window.localStorage.setItem('lists', JSON.stringify(newList));
+    }
     parsedLists.push({ listName, channels });
     window.localStorage.setItem('lists', JSON.stringify(parsedLists));
   }
