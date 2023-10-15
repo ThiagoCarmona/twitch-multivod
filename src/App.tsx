@@ -148,6 +148,8 @@ function App() {
 
   const handleButtonClick = () => {
     if(loading) return
+    setMultiVodUrl('')
+    setTwitchVodSyncUrl('')
     messageApi.open({
       content: 'Fetching Vods...',
       key: 'loading',

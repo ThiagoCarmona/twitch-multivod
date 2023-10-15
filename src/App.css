@@ -42,11 +42,12 @@
 }
 
 #submit-button {
-  width: 90px;
+  width: 100px;
+  margin: 20px 0px 0px 0px;
 }
 
 #output-area {
-  margin-top: 50px;
+  margin: 20px 0px 0px 0px
 }
 
 #multi-vod-url {
