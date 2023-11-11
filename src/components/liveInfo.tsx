@@ -6,11 +6,12 @@ interface LiveInfoProps {
   date: string
   profilePic: string
   show?: boolean
+  error: boolean
 }
 
 export const LiveInfo = (props: LiveInfoProps) => {
   return (
-    <div className={`liveInfo ${props.show === true ? '' : 'hide'}`}>
+    <div className={`liveInfo ${props.show === true ? '' : 'hide'} ${props.error ? 'errorBackground' : ''}`}>
       <div className="liveInfo__left">
         <img src={props.profilePic} />
       </div>

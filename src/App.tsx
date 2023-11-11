@@ -117,10 +117,19 @@ function App() {
         date: vodInfo.date,
         picture: vodInfo.image.replace('%{width}', '160').replace('%{height}', '90'),
         title: vodInfo.title,
-        show: true
+        show: true,
+        error: false
       })
     }catch{
-      setPreviewVod(null)
+      console.log('Vod not found')
+      setPreviewVod({
+        channel: '',
+        date: '',
+        picture: '/200w.gif',
+        title: 'Vod not found 😢',
+        show: true,
+        error: true
+      })
     }
   }
 
@@ -189,6 +198,7 @@ function App() {
       date={previewVod?.date || ''}
       profilePic={previewVod?.picture|| ''}
       show={previewVod?.show || false}
+      error={previewVod?.error || false}
       />
       {contextHolder}
       <SaveListModal

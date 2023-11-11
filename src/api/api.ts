@@ -22,7 +22,6 @@ export const getVodInfo = async (vodId: string) => {
     const response = await api.get(`/vod/${vodId}`);
     return response.data;
   } catch(err) {
-    console.log(err);
-    return null;
+    throw err;
   }
 };

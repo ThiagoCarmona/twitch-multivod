@@ -9,4 +9,5 @@ export interface PreviewInfo {
   date: string;
   picture: string;
   show: boolean;
+  error: boolean;
 }
