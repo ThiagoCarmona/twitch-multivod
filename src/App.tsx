@@ -11,6 +11,7 @@ import { SaveListModal } from './components/saveListModal';
 import { ManageListsModal } from './components/manageListsModal';
 import { LiveInfo } from './components/liveInfo';
 import { PreviewInfo } from './types';
+import packageJson from '../package.json'
 
 function App() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -292,6 +293,9 @@ function App() {
         ref={multiVodUrlRef}
         />
       </Pane>
+      <div className='version'>
+        <p>v{packageJson.version}</p>
+      </div>
     </div>
   )
 }

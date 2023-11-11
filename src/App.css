@@ -54,6 +54,14 @@
   cursor: pointer;
 }
 
+.version {
+  font-size: 10px;
+  color: rgb(255, 255, 255);
+  margin: 20px 0px 0px 0px;
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+}
 
 /* width */
 ::-webkit-scrollbar {
