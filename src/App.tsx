@@ -176,8 +176,15 @@ function App() {
     getSyncVods(vodId, filteredChannelList, minutes).then((res) => {
       setTwitchVodSyncUrl(res.twitchVodSyncUrl || '')
       
-    }).catch((err) => {
-      console.log(err)
+    }).catch(() => {
+      console.log("aqui")
+      messageApi.error({
+        content: 'No Vod found for this moment',
+        key: 'error',
+        duration: 7,
+        
+      })
+      setTwitchVodSyncUrl('')
     }).finally(() => {
       setLoading(false)
       messageApi.destroy('loading')
