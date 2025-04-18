@@ -21,7 +21,6 @@ function App() {
   const [vodUrl, setVodUrl] = React.useState<string>('')
   const [vodId, setVodId] = React.useState<string>('')
   const [vodOk, setVodOk] = React.useState<boolean>(true)
-  const [multiVodUrl, setMultiVodUrl] = React.useState<string>('')
   const [twitchVodSyncUrl, setTwitchVodSyncUrl] = React.useState<string>('')
   const [tourOpen, setTourOpen] = React.useState<boolean>(false)
   const [previewVod, setPreviewVod] = React.useState<PreviewInfo | null>(null)
@@ -82,10 +81,6 @@ function App() {
     }
   }, [])
 
-  const handleMultiVodUrlClick = () => {
-    if(multiVodUrl === '') return
-    window.open(multiVodUrl, '_blank')
-  }
 
   const handleTwitchVodSyncUrlClick = () => {
     if(twitchVodSyncUrl === '') return
@@ -158,7 +153,6 @@ function App() {
 
   const handleButtonClick = () => {
     if(loading) return
-    setMultiVodUrl('')
     setTwitchVodSyncUrl('')
     messageApi.open({
       content: 'Fetching Vods...',
@@ -180,7 +174,6 @@ function App() {
     .filter((channel, index, self) => self.indexOf(channel) === index)
     .filter((channel) => !channel.includes(' '))
     getSyncVods(vodId, filteredChannelList, minutes).then((res) => {
-      setMultiVodUrl(res.multiVodUrl || '')
       setTwitchVodSyncUrl(res.twitchVodSyncUrl || '')
       
     }).catch((err) => {
@@ -284,14 +277,6 @@ function App() {
         ref={twitchVodSyncUrlRef}
         />
 
-        <h2>MultiVod URL</h2>
-        <TextInput
-        placeholder="MultiVod URL"
-        value={multiVodUrl}
-        id="multi-vod-url"
-        onClick={handleMultiVodUrlClick}
-        ref={multiVodUrlRef}
-        />
       </Pane>
       <div className='version'>
         <p>v{packageJson.version}</p>
